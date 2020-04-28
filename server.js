@@ -29,14 +29,12 @@ app.get('/', (req, res) => {
 
 app.post('/signin', (req, res) => {
     const { email, password } = req.body;
-    console.log(email, password);
     db
         .select('email', 'hash')
         .from('login')
         .where('email', '=', email)
         .then(data => {
             const isValid = bcrypt.compareSync(password, data[0].hash);
-            console.log(isValid);
             if (isValid) {
                 return db
                     .select('*')
